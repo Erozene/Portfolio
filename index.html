@@ -566,9 +566,22 @@ footer p { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--light); }
   section { padding: 5rem 1.5rem; }
   .hero { padding: 0 1.5rem; padding-top: 80px; }
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .project-row { grid-template-columns: 40px 1fr; gap: 1rem; }
+
+  .project-row { grid-template-columns: 40px 1fr auto; gap: 0.75rem; }
   .project-meta, .project-tags { display: none; }
-  .project-row:hover { margin: 0 -1.5rem; padding: 2rem 1.5rem; }
+  .project-row:hover,
+  .project-item.open .project-row { margin: 0 -1.5rem; padding: 2rem 1.5rem; }
+
+  .project-panel { margin: 0 -1.5rem; }
+  .project-panel-inner {
+    padding: 1.5rem 1.5rem 2rem;
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem;
+  }
+  .project-panel-inner img { height: 220px !important; }
+  .panel-details { grid-column: 1 !important; grid-row: auto !important; }
+  .project-panel-inner > div:has(iframe) { grid-column: 1 !important; }
+
   footer { padding: 1.5rem; }
 }
 </style>
@@ -863,8 +876,8 @@ footer p { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--light); }
       </div>
       <div class="project-panel">
         <div class="project-panel-inner">
-          <div style="grid-column: 1 / 3; overflow:hidden; border-radius:6px; height:500px; position:relative; width:100%;">
-  <iframe src="https://luxurtour.com" frameborder="0" style="width:1440px; height:910px; border:none; transform-origin: top left; transform: scale(0.55);"></iframe>
+          <div id="luxurtour-embed" style="grid-column: 1 / 3; overflow:hidden; border-radius:6px; height:500px; position:relative; width:100%;">
+  <iframe id="luxurtour-iframe" src="https://luxurtour.com" frameborder="0" style="width:1440px; height:910px; border:none; transform-origin: top left; position:absolute; top:0; left:0;"></iframe>
 </div>
           <div class="panel-details" style="grid-column: 3; grid-row: 1;">
             <p class="panel-full-title">Luxurtour — Brand & Web</p>
@@ -988,6 +1001,22 @@ function filter(cat, btn) {
     }
   });
 }
+
+// Dynamic iframe scaling
+function scaleIframe() {
+  const embed = document.getElementById('luxurtour-embed');
+  const iframe = document.getElementById('luxurtour-iframe');
+  if (!embed || !iframe) return;
+  const scale = embed.offsetWidth / 1440;
+  iframe.style.transform = `scale(${scale})`;
+  embed.style.height = Math.round(910 * scale) + 'px';
+}
+scaleIframe();
+window.addEventListener('resize', scaleIframe);
+// Also scale when the panel opens
+document.querySelectorAll('.project-row').forEach(row => {
+  row.addEventListener('click', () => setTimeout(scaleIframe, 50));
+});
 
 // Accordion toggle
 function toggleProject(rowEl) {
