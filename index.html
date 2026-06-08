@@ -115,7 +115,6 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 4rem;
 }
 
 .hero-label {
@@ -223,6 +222,37 @@ section { padding: 7rem 3.5rem; }
   margin-bottom: 3.5rem;
 }
 .section-title em { font-style: italic; color: var(--mid); }
+
+/* ── HERO PHOTO ── */
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: flex-end;
+  gap: 4rem;
+  padding-bottom: 4rem;
+}
+
+.hero-photo {
+  width: clamp(200px, 22vw, 340px);
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 2px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.5s forwards;
+  flex-shrink: 0;
+  align-self: flex-end;
+  filter: grayscale(12%);
+}
+
+@media (max-width: 768px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-photo {
+    display: none;
+  }
+}
 
 /* ── ABOUT ── */
 .about { border-top: 1px solid var(--rule); }
@@ -578,9 +608,11 @@ footer p { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--light); }
     grid-template-columns: 1fr !important;
     gap: 0.75rem;
   }
-  .project-panel-inner img { height: 220px !important; }
+  .project-panel-inner img { height: auto !important; width: 100% !important; max-height: 280px; object-fit: cover; }
   .panel-details { grid-column: 1 !important; grid-row: auto !important; }
   .project-panel-inner > div:has(iframe) { grid-column: 1 !important; }
+  .project-panel-inner > div[style*="grid-column"] { grid-column: 1 !important; grid-row: auto !important; }
+  video { width: 100% !important; height: auto !important; max-height: 56vw; object-fit: contain; }
 
   footer { padding: 1.5rem; }
 }
@@ -603,16 +635,19 @@ footer p { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--light); }
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-main">
-    <p class="hero-label">Portfolio Creativo</p>
-    <h1 class="hero-name">Mark<br><span>Frydrych</span></h1>
-    <div class="hero-disciplines">
-      <span>Fotografia</span>
-      <span>Film & Post-Produzione</span>
-      <span>Motion Design</span>
-      <span>UI/UX</span>
-      <span>Sound Design</span>
+  <div class="hero-inner">
+    <div class="hero-main">
+      <p class="hero-label">Portfolio Creativo</p>
+      <h1 class="hero-name">Mark<br><span>Frydrych</span></h1>
+      <div class="hero-disciplines">
+        <span>Fotografia</span>
+        <span>Film & Post-Produzione</span>
+        <span>Motion Design</span>
+        <span>UI/UX</span>
+        <span>Sound Design</span>
+      </div>
     </div>
+    <img class="hero-photo" src="IMG_20241201_194224 copia.jpg" alt="Mark Frydrych">
   </div>
   <div class="hero-rule"></div>
   <div class="hero-bottom">
@@ -693,20 +728,19 @@ footer p { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--light); }
           <img src="656256030_17993884565930908_9001684748376475361_n.jpg" style="width:100%; border-radius:6px;">
           <img src="657737866_18105234139849531_2092422856707639700_n.jpg" style="width:100%; border-radius:6px;">
 
-         <div style="grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
-  
-<div class="panel-video" style="aspect-ratio: 16/9;">
-    <video width="100%" height="100%" controls style="display:block; border-radius:6px;">
-      <source src="Kevin Karell ft Liphe - CABARET_1080p.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div class="panel-video" style="aspect-ratio: 9/16; max-width: 320px;">
-    <video width="100%" height="100%" controls style="display:block; border-radius:6px;">
-      <source src="AQOR5XnKneNdtUxJPw3kuzYA7R5P-n3LqVZJI-paOhHnMD3BIK2uuvrFCSZ2M8N6wtjAjRs1ePMGXcRcLYdKr3zvWCt7-b7Ocyh98Dk.mp4" type="video/mp4">
-    </video>
-  </div>
-</div>
+          <!-- CABARET full width -->
+          <div style="grid-column: 1 / 3; aspect-ratio: 16/9; border-radius:6px; overflow:hidden;">
+            <video controls style="display:block; width:100%; height:100%; object-fit:cover; border-radius:6px;">
+              <source src="Kevin Karell ft Liphe - CABARET_1080p.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- vertical video + details in right column -->
           <div class="panel-details" style="grid-column: 3; grid-row: 1 / 6;">
+            <div style="aspect-ratio: 9/16; margin-bottom: 1.5rem; border-radius:6px; overflow:hidden;">
+              <video controls style="display:block; width:100%; height:100%; object-fit:cover;">
+                <source src="AQOR5XnKneNdtUxJPw3kuzYA7R5P-n3LqVZJI-paOhHnMD3BIK2uuvrFCSZ2M8N6wtjAjRs1ePMGXcRcLYdKr3zvWCt7-b7Ocyh98Dk.mp4" type="video/mp4">
+              </video>
+            </div>
             <p class="panel-full-title">Fotografia eventi — RUM & LOGIC.ANSWER</p>
             <p class="panel-year-tag">Fotografia · 2021 ad oggi</p>
             <p class="panel-body">Fotografia e editing per eventi live a Roma e Perugia. Copertura fotografica di concerti, eventi musicali e serate per i locali RUM a Roma e LOGIC.ANSWER a Perugia. Incluso in questa sezione una presentazione di color grading video per il videoclip di Kevin Karell.</p>
